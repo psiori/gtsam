@@ -1,5 +1,34 @@
 from conan import ConanFile
 from conan.tools.cmake import CMake, CMakeDeps, CMakeToolchain, cmake_layout
+from conan.tools.files import copy
+
+_EXPORT_EXCLUDES = (
+    ".git",
+    ".git/*",
+    "build",
+    "build/*",
+    "build_*",
+    "build_*/*",
+    "install",
+    "install/*",
+    "cmake-build-*",
+    ".cache",
+    ".cache/*",
+    ".vscode",
+    ".idea",
+    "__pycache__",
+    "__pycache__/*",
+    "*.pyc",
+    ".DS_Store",
+    "conanbuild.sh",
+    "conanbuildenv-*",
+    "conanrun.sh",
+    "conanrunenv-*",
+    "deactivate_conanbuild.sh",
+    "deactivate_conanrun.sh",
+    "compile_commands.json",
+    "CMakeUserPresets.json",
+)
 
 
 class GtsamConan(ConanFile):
@@ -12,7 +41,9 @@ class GtsamConan(ConanFile):
         "build_with_march_native": [True, False],
     }
     default_options = {"shared": False, "fPIC": True, "build_with_march_native": True}
-    exports_sources = "*"
+
+    def export_sources(self):
+        copy(self, "*", self.recipe_folder, self.export_sources_folder, excludes=_EXPORT_EXCLUDES)
 
     def requirements(self):
         self.requires("eigen/3.4.0")
