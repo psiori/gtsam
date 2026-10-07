@@ -11,7 +11,7 @@ class GtsamConan(ConanFile):
         "fPIC": [True, False],
         "build_with_march_native": [True, False],
     }
-    default_options = {"shared": True, "fPIC": True, "build_with_march_native": True}
+    default_options = {"shared": False, "fPIC": True, "build_with_march_native": True}
     exports_sources = "*"
 
     def requirements(self):
